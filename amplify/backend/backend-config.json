@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "rckeeltestfrontend4d205336": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "storage": {
+    "rkeeltestuploadbucket": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}

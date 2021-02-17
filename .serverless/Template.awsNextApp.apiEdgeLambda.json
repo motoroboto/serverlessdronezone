@@ -1,0 +1,17 @@
+{
+  "name": "ra9xhdb-33pmtqq",
+  "hash": "4Mj8VhWQnm6KepjU3V0BskE5Ajh7odh9dkdD4F2/PQI=",
+  "description": "API Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/jupiterii/Bootcamp/projects/project-3/rckeeltestfrontend/.serverless_nextjs/api-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs12.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::616082320291:role/ra9xhdb-056dcfk"
+  },
+  "arn": "arn:aws:lambda:us-east-1:616082320291:function:ra9xhdb-33pmtqq",
+  "region": "us-east-1"
+}
