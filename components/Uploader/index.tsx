@@ -41,16 +41,12 @@ const Uploader = () => {
 
             Storage.put(name, file, {
                 /* level: 'protected', */
-                contentType: file.type,
+                contentType: file,
             })
                 .then((result) => {
                     console.log(result)
                     console.log('name:', name)
                     setResponse(`Success uploading file: ${name}!`)
-                })
-                .then(() => {
-                    document.getElementById('file-input').value = null
-                    setFile(null)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -80,10 +76,7 @@ const Uploader = () => {
                         Video Uploader
                         </h2>
                 </div>
-                <Grid
-                    className='video-uploader'
-                    mb={2}
-                >
+                <Grid>
                     <form
                         onSubmit={(e) => onSubmit(e)}>
                         <p>
