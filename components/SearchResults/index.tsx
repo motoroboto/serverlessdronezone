@@ -1,9 +1,7 @@
 import React from "react";
-// import '../SearchResults/styles.module.scss';
+import styles from '../../styles/Search.module.css';
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -43,42 +41,27 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 
-const SearchInputs = ({ searchinputs, videos, handleChange, handleSearch }) => {
+const SearchInputs = ({ videos, handleChange, }) => {
     const classes = useStyles();
 
     return (
         <>
-            <Card>
-                <form className={classes.root} id="searchform" onChange={handleChange} >
-                    <Grid container>
-                        <Grid item lg={3}>
-                            <div className="form-group">
-                                {searchinputs.data.map(({ id, title }) => {
-                                    return (
-                                        <div key={id}>
-                                            <TextField
-                                                id="filled-textarea"
-                                                label={title}
-                                                multiline
-                                                variant="filled"
-                                                name={title}
-                                                className="form-control"
-                                            />
-                                        </div>
-                                    );
-                                })}
-                                {/* <button
-								type="submit"
-								form="searchform"
-								value="search"
-								onClick={handleSearch}
-								>
-								Search
-							</button> */}
-                            </div>
-                        </Grid>
-
-                        <Grid className="tablegrid" item lg={9}>
+            <br></br>
+            <Card >
+                <div className={styles.containerfluid}>
+                <form className={styles.searchform} id="searchform" onChange={handleChange} >
+                            <div className="formgroup">
+                            <input
+							name="search"
+							list="search"
+							type="text"
+							className={styles.formcontrol}
+							placeholder="Search Drone Videos"
+							id="search"
+						/>
+                        </div>
+                </form>
+                </div>
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="customized table">
                                     <TableHead>
@@ -106,9 +89,6 @@ const SearchInputs = ({ searchinputs, videos, handleChange, handleSearch }) => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Grid>
-                    </Grid>
-                </form>
             </Card>
         </>
     );

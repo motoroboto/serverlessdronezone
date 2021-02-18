@@ -1,10 +1,10 @@
 {
   "name": "ra9xhdb-33pmtqq",
-  "hash": "4Mj8VhWQnm6KepjU3V0BskE5Ajh7odh9dkdD4F2/PQI=",
+  "hash": "8oRX/0KjiMDGkVPZ3uKpfcREJHJ++eF02XF2TwMF3Ms=",
   "description": "API Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
-  "code": "/Users/jupiterii/Bootcamp/projects/project-3/rckeeltestfrontend/.serverless_nextjs/api-lambda",
+  "code": "C:\\Users\\johnd\\OneDrive\\Desktop\\serverlessdronezone\\.serverless_nextjs\\api-lambda",
   "shims": [],
   "handler": "index.handler",
   "runtime": "nodejs12.x",

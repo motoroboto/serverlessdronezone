@@ -1,10 +1,10 @@
 {
   "name": "ra9xhdb-i643e55",
-  "hash": "/wScS6Mb3AeYCoHLz6/qFoURzAHC0pg331L3YnbYn4Y=",
+  "hash": "nwvPa12XS4Z0sedoviwfR/62y7woZRd3RnHKdbi5J9Y=",
   "description": "Default Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
-  "code": "/Users/jupiterii/Bootcamp/projects/project-3/rckeeltestfrontend/.serverless_nextjs/default-lambda",
+  "code": "C:\\Users\\johnd\\OneDrive\\Desktop\\serverlessdronezone\\.serverless_nextjs\\default-lambda",
   "shims": [],
   "handler": "index.handler",
   "runtime": "nodejs12.x",

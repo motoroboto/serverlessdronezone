@@ -46,9 +46,6 @@ const SearchPage = () => {
     const handleSearch = (e) => {
         // e.preventDefault();
 
-
-
-
         // let queryParams = [];
         // for (const [key, value] of Object.entries(search)) {
         // 	queryParams.push(`${key}=${value}`);
@@ -79,16 +76,12 @@ const SearchPage = () => {
             return values.indexOf(searchQuery.toLowerCase()) !== -1;
         });
         setSearchedVideos(searchQueryList);
-
-        // Setsearch if queryroute to be used
-        // const { name, value } = e.target;
-        // setSearch({ ...search, [name]: value });
     };
 
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
-                <SearchResults searchinputs={MetaData} videos={searchedVideos} handleChange={handleChange} handleSearch={handleSearch} />
+                <SearchResults videos={searchedVideos} handleChange={handleChange} />
             </CardContent>
         </Card>
     );

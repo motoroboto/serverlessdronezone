@@ -1,0 +1,22 @@
+.searchform {
+	width: 100%;
+	margin: auto;
+	padding: 25px;
+}
+.formcontrol {
+	text-align: center;
+	width: 80%;
+	height: 35px;
+}
+.containerfluid {
+	display: block;
+	position: relative;
+	background-color: gainsboro;
+	text-align: center;
+}
+.searchtextarea {
+	text-align: center;
+}
+.formgroup {
+	text-align: center;
+}
