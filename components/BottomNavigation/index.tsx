@@ -8,9 +8,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Link from 'next/link';
 import Container from '@material-ui/core/Container';
 const useStyles = makeStyles({
-    container: {
-
-
+    root: {
+        width: 500,
     },
     typography: {
         align: "center"
@@ -20,17 +19,8 @@ export default function SimpleBottomNavigation() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     return (
-        <Container
-            display='block'
-            padding='20px'
-            heigh='60px'
-            width='100%'
-        >
+        <Container>
             <BottomNavigation
-                width='100%'
-                position='absolute'
-                bottom='0'
-                left='0'
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
@@ -48,6 +38,6 @@ export default function SimpleBottomNavigation() {
                     <BottomNavigationAction label="Search" icon={<SearchIcon />} />
                 </Link>
             </BottomNavigation>
-        </Container >
+        </Container>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Amplify, { Storage } from 'aws-amplify'
 import {
     AmplifyAuthenticator,
@@ -11,16 +11,14 @@ import TextField from '@material-ui/core/TextField';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 const { v4: uuidv4 } = require('uuid');
-import awsConfig from '../../aws-exports'
+import awsConfig from '../aws-exports';
 
 Amplify.configure(awsConfig)
-
-
 const Uploader = () => {
     const [name, setName] = useState('')
-    const [file, setFile] = useState('')
+    const [videoSrc, setVideoSrc] = useState('')
+    const [file, setFile] = useState({ type: '', name: '' })
     const [response, setResponse] = useState('')
-
     const onChange = (vidUpload) => {
         vidUpload.preventDefault()
         if (vidUpload.target.files[0] !== null) {
@@ -28,7 +26,6 @@ const Uploader = () => {
             setName(vidUpload.target.files[0].name)
         }
     }
-
     const onSubmit = (vidUpload) => {
         vidUpload.preventDefault()
         if (file) {
@@ -38,7 +35,6 @@ const Uploader = () => {
             const name = randomName.replace("video/", ".")
             const videoURL = `${s3Bucket}${name}`
             console.log('file:', videoURL)
-
             Storage.put(name, file, {
                 /* level: 'protected', */
                 contentType: file.type,
@@ -49,7 +45,8 @@ const Uploader = () => {
                     setResponse(`Success uploading file: ${name}!`)
                 })
                 .then(() => {
-                    document.getElementById('file-input').value = null
+                    // const inputValue = (<HTMLInputElement>document.getElementById('file-input'</HTMLInputElement>)
+                    const inputValue = (document.getElementById('file-input') as HTMLInputElement).value = null
                     setFile(null)
                 })
                 .catch((err) => {
@@ -60,6 +57,13 @@ const Uploader = () => {
             setResponse(`Files needed!`)
         }
     }
+
+    useEffect(() => {
+        if (file?.name) {
+
+            setVideoSrc(URL.createObjectURL(file))
+        }
+    }, [file])
 
     return (
         <Grid
@@ -80,17 +84,12 @@ const Uploader = () => {
                         Video Uploader
                         </h2>
                 </div>
-                <Grid
-                    className='video-uploader'
-                    mb={2}
-                >
+                <Grid className='video-uploader' style={{ marginBottom: '20px' }}>
                     <form
                         onSubmit={(e) => onSubmit(e)}>
                         <p>
-
                         </p>
-
-                        {file ? (<video src={file ? URL.createObjectURL(file) : null} alt={file ? file.name : null} width="400px" />) :
+                        {file ? (<video src={videoSrc} width="400px" />) :
                             (<p></p>)}
                         <Grid
                             justify="space-between"
@@ -104,7 +103,6 @@ const Uploader = () => {
                                     accept='video/*'
                                     onChange={(vidUpload) => onChange(vidUpload)}
                                 />
-
                                 <Button
                                     color="primary"
                                     variant="contained"
@@ -145,8 +143,6 @@ const Uploader = () => {
                                 }}
                             />
                         </Grid>
-
-
                     </form>
                 </Grid>
                 {response && (
@@ -154,14 +150,10 @@ const Uploader = () => {
                         {response}
                     </div>
                 )}
-
                 <div className='sign-out'>
-
                 </div>
             </AmplifyAuthenticator>
         </Grid >
     )
 }
-
-
 export default Uploader
