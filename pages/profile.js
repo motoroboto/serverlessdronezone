@@ -102,7 +102,10 @@ const Profile = () => {
 									<h4 className="title">{userData?.username}</h4>
 								</a>
 								<p className="userhandle">
-									<a href={`http://instagram.com/${userData.instagram}`}>
+									<a
+										href={`http://instagram.com/${userData.instagram}`}
+										target="_blank"
+									>
 										{`@${userData?.instagram} ` ||
 											"Update your profile to render social media handle"}
 									</a>
