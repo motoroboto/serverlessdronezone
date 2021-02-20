@@ -24,16 +24,11 @@ import findUserProfile from "./../pages/api/Finduser";
 const Profile = () => {
 	const [user, setUser] = useState(null);
 	const [userData, setUserData] = useState({});
-	const [userProfile, setUserProfile] = useState({});
 
 	useEffect(async () => {
 		await Auth.currentAuthenticatedUser()
 			.then((user) => {
 				setUser(user);
-				setUserProfile({
-					...userProfile,
-					username: user.username,
-				});
 				findUserProfile(user.username).then((profiledata) => {
 					console.log("this is the setup for user profile", profiledata);
 					setUserData(profiledata.data);
@@ -43,9 +38,6 @@ const Profile = () => {
 	}, []);
 
 	console.log("user profile data", userData);
-	// const getdefaultstate = () => {
-	// 	return { username: user.username };
-	// };
 
 	const handleProfileInputs = (event) => {
 		// console.log('event target name is', event.target.name);
@@ -85,7 +77,6 @@ const Profile = () => {
 			<Grid
 				container
 				spacing={3}
-				// direction="column"
 				alignItems="center"
 				justify="center"
 				style={{ minHeight: "60vh" }}
@@ -127,10 +118,7 @@ const Profile = () => {
 							style={{ textAlign: "left" }}
 							title={user && <h5>Welcome, {user.username} Edit Profile</h5>}
 						></CardHeader>
-						<form
-							style={{ margin: "5px" }}
-							//onChange={(e) => handleProfileInputs(e)}
-						>
+						<form style={{ margin: "5px" }}>
 							<Grid container spacing={2}>
 								<Grid item xs={5}>
 									<FormGroup>
