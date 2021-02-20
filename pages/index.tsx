@@ -1,5 +1,9 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import React from "react";
+import { render } from "react-dom";
+import Carousel from "./Carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function Home() {
   return (
@@ -9,6 +13,10 @@ export default function Home() {
         <title>DroneZones</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+  <div>
+    <Carousel />
+  </div>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to The DroneZone</h1>
