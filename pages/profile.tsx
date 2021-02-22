@@ -9,7 +9,6 @@ import {
 	Card,
 	CardHeader,
 	CardMedia,
-	CardTitle,
 	CardContent,
 	FormControl,
 	FormGroup,
@@ -22,50 +21,83 @@ import { Auth } from "aws-amplify";
 import findUserProfile from "./../pages/api/Finduser";
 
 const Profile = () => {
-	const [user, setUser] = useState(null);
-	const [userData, setUserData] = useState({});
+	type userDataList = {
+		_id: string,
+		username: string,
+		company: string,
+		instagram: string,
+		emailaddress: string,
+		firstname: string,
+		lastname: string,
+		address: string,
+		city: string,
+		country: string,
+		postalcode: string,
+		aboutme: string
 
-	useEffect(async () => {
-		await Auth.currentAuthenticatedUser()
+	}
+	const [cognitoUser, setCognitoUser] = useState(null);
+	const [formData, setFormData] = useState<userDataList>(Object);
+
+	useEffect(() => {
+
+		Auth.currentAuthenticatedUser()
 			.then((user) => {
-				setUser(user);
+				setCognitoUser(user);
+				
 				findUserProfile(user.username).then((profiledata) => {
-					console.log("this is the setup for user profile", profiledata);
-					setUserData(profiledata.data);
+					if (profiledata.data === null) {
+						setFormData({username: user.username} as Pick<userDataList, keyof userDataList>)
+					} else {
+						setFormData(profiledata.data);
+					}
 				});
 			})
-			.catch(() => setUser(null));
+			.catch(() => setCognitoUser(null));
 	}, []);
 
-	console.log("user profile data", userData);
-
 	const handleProfileInputs = (event) => {
-		// console.log('event target name is', event.target.name);
-		// console.log('event target value is', event.target.value);
 		const { name, value } = event.target;
-		setUserData({
-			...userData,
+		setFormData({
+			...formData,
 			[name]: value,
 		});
 	};
 
 	const handleUserUpdate = () => {
-		console.log("user profile inputs", userData);
-		axios({
-			method: "put",
-			url:
-				"https://ulsg7ghjha.execute-api.us-east-1.amazonaws.com/dev/api/updateuser/" +
-				user.username,
-			data: userData,
-		}).then((res) => {
-			console.log(res);
-			if (res.status === 200) {
-				console.log("this worked");
-				alert("Your profile was successfully updated");
-			} else {
-				console.log("ERROOOOR");
-			}
-		});
+		if (!formData._id){
+			axios({
+                method: "post",
+                url:
+                    "https://ulsg7ghjha.execute-api.us-east-1.amazonaws.com/dev/api/createuser/",
+                data: formData,
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log("this worked");
+                } else {
+                    console.log("ERROOOOR");
+                }
+            });
+
+		} else {
+			axios({
+				method: "put",
+				url:
+					"https://ulsg7ghjha.execute-api.us-east-1.amazonaws.com/dev/api/updateuser/" +
+					formData.username,
+				data: formData,
+			}).then((res) => {
+				console.log(res);
+				if (res.status === 200) {
+					console.log("this worked");
+					alert("Your profile was successfully updated");
+				} else {
+					console.log("ERROOOOR");
+				}
+			});
+		}
+
 	};
 
 	return (
@@ -99,19 +131,19 @@ const Profile = () => {
 										width={50}
 										height={50}
 									/>
-									<h4 className="title">{userData?.username}</h4>
+									<h4 className="title">{formData?.username}</h4>
 								</a>
 								<p className="userhandle">
 									<a
-										href={`http://instagram.com/${userData.instagram}`}
+										href={`http://instagram.com/${formData?.instagram}`}
 										target="_blank"
 									>
-										{`@${userData?.instagram} ` ||
+										{`@${formData?.instagram} ` ||
 											"Update your profile to render social media handle"}
 									</a>
 								</p>
 							</div>
-							<p className="userdescription text-center">{userData?.aboutme}</p>
+							<p className="userdescription text-center">{formData?.aboutme}</p>
 						</CardContent>
 					</Card>
 				</Grid>
@@ -119,7 +151,7 @@ const Profile = () => {
 					<Card style={{ padding: "10px" }}>
 						<CardHeader
 							style={{ textAlign: "left" }}
-							title={user && <h5>Welcome, {user.username} Edit Profile</h5>}
+							title={cognitoUser && <h5>Welcome, {cognitoUser.username} Edit Profile</h5>}
 						></CardHeader>
 						<form style={{ margin: "5px" }}>
 							<Grid container spacing={2}>
@@ -130,7 +162,7 @@ const Profile = () => {
 											label="Company"
 											variant="outlined"
 											name="company"
-											value={userData.company || ""}
+											value={formData?.company || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -142,7 +174,7 @@ const Profile = () => {
 											label="Instagram"
 											variant="outlined"
 											name="instagram"
-											value={userData.instagram || ""}
+											value={ formData?.instagram || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -154,7 +186,7 @@ const Profile = () => {
 											label="Email address"
 											variant="outlined"
 											name="emailaddress"
-											value={userData.emailaddress || ""}
+											value={formData?.emailaddress || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -166,7 +198,7 @@ const Profile = () => {
 											label="First Name"
 											variant="outlined"
 											name="firstname"
-											value={userData.firstname || ""}
+											value={formData?.firstname || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -178,7 +210,7 @@ const Profile = () => {
 											label="Last Name"
 											variant="outlined"
 											name="lastname"
-											value={userData.lastname || ""}
+											value={formData?.lastname || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -190,7 +222,7 @@ const Profile = () => {
 											label="Address"
 											variant="outlined"
 											name="address"
-											value={userData.address || ""}
+											value={formData?.address || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -202,7 +234,7 @@ const Profile = () => {
 											label="City"
 											variant="outlined"
 											name="city"
-											value={userData.city || ""}
+											value={formData?.city || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -214,7 +246,7 @@ const Profile = () => {
 											label="Country"
 											variant="outlined"
 											name="country"
-											value={userData.country || ""}
+											value={formData?.country || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -226,7 +258,7 @@ const Profile = () => {
 											label="Postal Code"
 											variant="outlined"
 											name="postalcode"
-											value={userData.postalcode || ""}
+											value={formData?.postalcode || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
@@ -238,7 +270,7 @@ const Profile = () => {
 											label="About Me"
 											variant="outlined"
 											name="aboutme"
-											value={userData.aboutme || ""}
+											value={formData?.aboutme || ""}
 											onChange={(e) => handleProfileInputs(e)}
 										/>
 									</FormGroup>
